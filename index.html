@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Favicon: the `?v=` query bumps a cache-bust counter. Browsers cache
+         favicons very aggressively (Chrome in particular often ignores even
+         a hard refresh for the favicon) so changing the URL is the most
+         reliable way to force a re-fetch after a swap. Bump v=N every time
+         the favicon changes. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <link rel="alternate icon" href="/favicon.svg?v=2" />
+    <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#244236" />
+    <meta name="description" content="Healix — total care, totally different. Personalized weight loss, sexual health, mental health and lab testing." />
+
+    <!-- Performance: parallelize the Google Fonts handshake + stylesheet
+         download. Previously the font was pulled via @import inside
+         global.scss, which meant the browser couldn't see it until after the
+         CSS was parsed (render-blocking). Preconnect + a real <link> kicks
+         the request off in the same critical phase as the JS bundle.
+         `display=swap` keeps text visible immediately while the webfont
+         loads in the background. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- DNS resolution for Cloudinary (used by WegovySpotlight FDA badge) is
+         primed eagerly so the request doesn't pay the lookup cost mid-paint. -->
+    <link rel="dns-prefetch" href="https://cloudinary.forhims.com" />
+
+    <!-- LCP image preload for the homepage hero. The Hero component sets
+         these via CSS custom properties (`--card-bg`), which the browser
+         can't see until React mounts. Preloading at HTML-parse time means
+         the bytes start flowing in parallel with the JS bundle, not after.
+         `imagesrcset` keeps mobile from downloading desktop assets — only
+         viewports >= 768px take the preload hint, smaller screens fall
+         back to whatever the rendered <Link> ends up resolving. -->
+    <!-- Homepage hero cards — two side-by-side LCP candidates on desktop. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/card1-default-desktop.webp"
+      media="(min-width: 768px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/card2-default-desktop.webp"
+      media="(min-width: 768px)"
+      fetchpriority="high"
+    />
+
+    <!-- =============================================
+         Route-aware hero preload
+         ---------------------------------------------
+         The hero images for /labs, /labs/what-we-test, and
+         /labs/cancer-screening live inside lazy-loaded route chunks. Without
+         this hint, the image isn't discovered until: main bundle download →
+         page chunk download → React mount → DOM insertion → image fetch.
+         That's why these heroes felt sluggish.
+         The inline script below runs *during HTML parse* (before the main
+         bundle starts), inspects the URL, and injects a preload <link> for
+         the matching hero. Result: the image starts downloading in parallel
+         with the JS, so by the time React renders the page the bytes are
+         already in cache. Adding new pages? Append a path → image entry to
+         the map below.
+         ============================================= -->
+    <script>
+      (function () {
+        // One entry per route whose hero is locked inside a lazy chunk.
+        // Values may be a string (one hero) or an array (multiple LCP
+        // candidates side-by-side, e.g. weight-loss card grid).
+        var heroByPath = {
+          '/labs': '/images/h-labs-ATF-graph-T1-D-2.webp',
+          '/labs/what-we-test': '/images/h_biomarker_hero-d-2.webp',
+          '/labs/cancer-screening': '/images/h-labs-AP-3-D.webp',
+          '/labs/action-plan': '/images/h-labs-AP-D.webp',
+          '/membership': '/images/h_bg.png',
+          '/weight-loss': [
+            '/images/h_image1-1_l.webp',
+            '/images/h_image1-2_l.webp',
+            '/images/h_image2_l.webp'
+          ]
+        };
+        var path = window.location.pathname.replace(/\/+$/, '') || '/';
+        var hero = heroByPath[path];
+        if (!hero) return;
+        var list = Array.isArray(hero) ? hero : [hero];
+        for (var i = 0; i < list.length; i++) {
+          var link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = list[i];
+          // First image gets priority, the rest piggy-back at normal
+          // priority so we don't crowd out the JS bundle.
+          link.fetchPriority = i === 0 ? 'high' : 'auto';
+          document.head.appendChild(link);
+        }
+      })();
+    </script>
+    <!-- ============================================= -->
+
+    <!-- =============================================
+         Idle-priority prefetch of every other page's hero
+         ---------------------------------------------
+         `rel="prefetch"` tells the browser to download these in the
+         lowest priority lane — only when the network is otherwise idle.
+         The result: by the time the user navigates from /, the hero of
+         whichever page they click is already in HTTP cache, so it
+         appears in the same paint as the rest of the page chunk.
+         Skipped automatically by browsers honoring Save-Data.
+         ============================================= -->
+    <link rel="prefetch" as="image" href="/images/h-labs-ATF-graph-T1-D-2.webp" />
+    <link rel="prefetch" as="image" href="/images/h_biomarker_hero-d-2.webp" />
+    <link rel="prefetch" as="image" href="/images/h-labs-AP-3-D.webp" />
+    <link rel="prefetch" as="image" href="/images/h-labs-AP-D.webp" />
+    <link rel="prefetch" as="image" href="/images/h_bg.png" />
+    <link rel="prefetch" as="image" href="/images/h_image1-1_l.webp" />
+    <link rel="prefetch" as="image" href="/images/h_image1-2_l.webp" />
+    <link rel="prefetch" as="image" href="/images/h_image2_l.webp" />
+    <link rel="prefetch" as="image" href="/images/image3_l.webp" />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+    />
+
+    <title>Healix</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

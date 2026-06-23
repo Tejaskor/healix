@@ -1,0 +1,481 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================
+// TESTOSTERONE SECTION
+// =============================================
+
+// Outer section — no background, just spacing
+// Matches spotlight: 0 padding below 1300px, 90px above
+.testo {
+  width: 100%;
+  margin-top: 40px;
+  padding: $spacing-xs 0;
+
+  @media (min-width: 1300px) {
+    padding: $spacing-xs 90px;
+  }
+}
+
+// =============================================
+// Wrapper — this is the "card" container
+// Has the GRADIENT as base, image layered on top
+// Matches spotlight: max-width, border-radius, margin
+// =============================================
+.testo__wrapper {
+  position: relative; // anchor for absolute bg image
+  overflow: hidden; // clip the masked image edges
+  max-width: 1920px;
+  margin: 0 auto;
+  border-radius: 0;
+
+  // Gradient is the BASE layer — always visible
+  // The image fades INTO this gradient via mask
+  background: linear-gradient(
+    to bottom,
+    rgb(215, 227, 235) 0%,
+    rgb(225, 230, 210) 40%,
+    rgb(250, 234, 171) 100%
+  );
+
+  @media (min-width: 1300px) {
+    border-radius: 24px;
+  }
+}
+
+// =============================================
+// Background image layer (absolute, behind content)
+// Uses mask-image to fade bottom edge to transparent
+// so it dissolves smoothly into the gradient
+// =============================================
+.testo__bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70%; // image covers top 70% of the section
+
+  background-image: url('/images/bg_image3.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  z-index: 0;
+
+  // KEY: mask fades image bottom to transparent
+  // so the gradient underneath shows through seamlessly
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 50%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 50%,
+    transparent 100%
+  );
+}
+
+// =============================================
+// =============================================
+// Animated dotted curve — scroll-driven
+//
+// HOW scroll-driven animation works:
+// - useScrollProgress returns 0→1 as user scrolls
+// - JS maps that to stroke-dashoffset (PATH_LENGTH→0)
+// - Each frame, the path "draws" a bit more
+// - Result: curve appears to draw AS the user scrolls
+//
+// WHY scroll-driven > timed animation:
+// - Feels connected to user action (intentional, not random)
+// - User controls the pace — fast scroll = fast draw
+// - Premium SaaS sites use this because it creates
+//   a sense of discovery and engagement
+// =============================================
+@keyframes curve-reveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
+.testo__curve {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  z-index: 0;
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0); // hidden initially
+
+  &--visible {
+    animation: curve-reveal 2.5s ease-out forwards;
+  }
+}
+
+.testo__curve-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+
+// =============================================
+// Person image — scroll-driven fade + rise
+// Inline styles drive opacity & transform from JS
+// =============================================
+.testo__person {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  width: 80%;
+
+  @media (min-width: 561px) and (max-width: 599px) {
+    top: 1%;
+    left: 50%;
+    width: 77%;
+  }
+
+  @media (min-width: 600px) {
+    top: 12%;
+    width: 70%;
+  }
+  max-width: 650px;
+  z-index: 1;
+  pointer-events: none;
+  object-fit: contain;
+
+  // Hidden initially
+  opacity: 0;
+  transform: translateX(-50%) translateY(40px);
+  transition: opacity 1.2s ease-out 0.5s, transform 1.2s ease-out 0.5s;
+
+  // Fade bottom edge
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 65%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 65%,
+    transparent 100%
+  );
+
+  @include tablet-up {
+    width: 55%;
+    top: 8%;
+  }
+
+  @media (min-width: 768px) {
+    width: 91%;
+    top: 8%;
+  }
+
+  @include desktop {
+    width: 45%;
+    top: 6%;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 730px;
+    width: 70%;
+    top: 6%;
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 827px;
+    width: 66%;
+    top: -4%;
+  }
+
+  @media (min-width: 1300px) and (max-width: 1380px) {
+    top: 0%;
+  }
+
+  &--visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+// =============================================
+// Content layer — sits above the background
+// =============================================
+.testo__content {
+  position: relative;
+  z-index: 2; // above bg image (z:0)
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// =============================================
+// SVG dotted path
+// =============================================
+.testo__path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.testo__path-line {
+  opacity: 0.4;
+}
+
+// =============================================
+// Header
+// =============================================
+.testo__header {
+  text-align: center;
+  padding-top: $spacing-3xl;
+
+  @include desktop {
+    padding-top: $spacing-4xl;
+  }
+}
+
+.testo__heading {
+  font-family: $font-primary;
+  font-weight: 500;
+  line-height: 1.125;
+  letter-spacing: -0.03em;
+  color: #0A2633;
+
+  font-size: clamp(25px, calc(25px + (43 - 25) * ((100vw - 375px) / (1440 - 375))), 43px);
+}
+
+// =============================================
+// Action buttons
+// =============================================
+.testo__actions {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 16rem;
+  margin-bottom: 0;
+  padding: 0 $spacing-md;
+  position: relative;
+  z-index: 3;
+
+  @media (min-width: 600px) {
+    margin-top: 30rem;
+  }
+
+  @include tablet-up {
+    margin-top: 36rem;
+  }
+
+  @include desktop {
+    gap: 1rem;
+    margin-top: 34rem;
+  }
+}
+
+.testo__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 $spacing-xl;
+  font-family: $font-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-pill;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  @include desktop {
+    height: 48px;
+    padding: 0 $spacing-2xl;
+    font-size: $font-size-base;
+  }
+
+  &--primary {
+    background-color: $color-white;
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    font-size: calc(-2.57373px + 0.875rem + 0.178731vw);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(8px);
+      transform: translateY(-1px);
+    }
+  }
+
+  &--secondary {
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    color: rgb(255, 255, 255);
+    padding-left: 30px;
+    padding-right: 30px;
+
+    &:hover {
+      background-color: $color-accent-hover;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// =============================================
+// Bento cards
+// =============================================
+.testo__cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: $spacing-md;
+  width: 100%;
+  padding: 0 8px;
+
+  @media (min-width: 740px) {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: $spacing-lg;
+    padding: 0 $spacing-lg;
+  }
+
+  @include desktop {
+    margin-top: 40px;
+    padding: 0 40px;
+  }
+}
+
+.testo__card {
+  background: linear-gradient(127deg, rgb(255, 245, 212) 2.43%, rgb(255, 250, 232) 96.81%);
+  border-radius: 20px;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 397px;
+  max-width: 502px;
+
+  @media (max-width: 739px) {
+    max-width: none;
+  }
+
+  @include desktop {
+    height: 478px;
+    max-width: 546px;
+  }
+  position: relative;
+  overflow: hidden;
+
+  @include desktop {
+    padding: $spacing-xl;
+  }
+}
+
+.testo__card-top {
+  position: relative;
+  z-index: 1;
+}
+
+.testo__card-title {
+  font-family: $font-primary;
+  font-size: clamp(20px, calc(20px + (29 - 20) * ((100vw - 375px) / (1440 - 375))), 29px);
+  font-weight: 500;
+  color: #0A2633;
+  line-height: 1.2;
+}
+
+.testo__card-subtitle {
+  font-family: $font-primary;
+  font-size: clamp(16px, calc(16px + (29 - 16) * ((100vw - 375px) / (1440 - 375))), 29px);
+  font-weight: $font-weight-regular;
+  color: #789299;
+  margin-top: 0;
+  font-weight: 500;
+}
+
+.testo__card-image {
+  flex: 1;
+  background-size: 144%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  margin-bottom: -$spacing-lg;
+  min-height: 300px;
+
+  @media (max-width: 375px) {
+    background-size: 200%;
+  }
+
+  @media (min-width: 376px) and (max-width: 499px) {
+    background-size: 150%;
+  }
+
+  @media (min-width: 500px) and (max-width: 740px) {
+    background-size: 100%;
+  }
+
+  @media (min-width: 740px) and (max-width: 900px) {
+    background-size: 180%;
+  }
+
+  @include desktop {
+    background-size: 160%;
+    margin-bottom: -$spacing-xl;
+  }
+}
+
+.testo__card-btn {
+  position: absolute;
+  bottom: $spacing-lg;
+  right: $spacing-lg;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 $spacing-lg;
+  font-family: $font-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: rgb(237, 225, 172);
+  background-color: rgb(10, 38, 51);
+  border-radius: $radius-pill;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgb(20, 55, 72);
+  }
+}
+
+// =============================================
+// Disclaimer
+// =============================================
+.testo__disclaimer {
+  text-align: center;
+  padding: $spacing-xl $spacing-md $spacing-2xl;
+  max-width: 700px;
+  margin: 0 auto;
+
+  p {
+    font-family: $font-primary;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #56513D;
+    line-height: 1.5;
+  }
+}
+
+.testo__disclaimer-small {
+  font-size: $font-size-xs !important;
+  color: rgba(0, 0, 0, 0.33) !important;
+  margin-top: 4px;
+}

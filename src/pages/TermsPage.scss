@@ -1,0 +1,428 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// Palette pinned locally so this page is self-contained and stays in sync
+// with the Sitemap page aesthetic.
+$tp-bg:       #0F1E18;
+$tp-bg-2:     #142B23;
+$tp-surface:  #1A362D;
+$tp-line:     rgba(247, 245, 240, 0.10);
+$tp-line-2:   rgba(247, 245, 240, 0.18);
+$tp-text:     #F7F5F0;
+$tp-muted:    rgba(247, 245, 240, 0.66);
+$tp-soft:     rgba(247, 245, 240, 0.78);
+$tp-accent:   #FAEAAC;       // gold/cream — primary accent
+$tp-accent-2: #2f8f5f;       // green — secondary accent
+$tp-warn:     #f0a87a;
+$tp-warn-bg:  rgba(176, 74, 63, 0.14);
+$tp-warn-bd:  rgba(240, 168, 122, 0.32);
+
+// =============================================================================
+// Page shell
+// =============================================================================
+
+.terms-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  // Top padding intentionally minimal so the breadcrumb sits right
+  // beneath the sticky navbar; bottom keeps the original breathing room.
+  padding: 16px 20px 96px;
+  background:
+    radial-gradient(60% 50% at 50% 0%, $tp-bg-2 0%, $tp-bg 65%),
+    $tp-bg;
+  color: $tp-text;
+  isolation: isolate;
+  // Bottom corners square so the dark page bg flushes straight into the
+  // footer. `clip` (vs hidden) keeps `position: sticky` working on the
+  // sidebar — hidden would create a scroll container that traps it.
+  overflow: clip;
+
+  // Section anchors land below the sticky site navbar — generous offset
+  // so titles aren't tucked under the chrome.
+  scroll-padding-top: 96px;
+
+  @media (min-width: 768px) {
+    padding: 20px 32px 128px;
+  }
+}
+
+.terms-page__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+// =============================================================================
+// Breadcrumb
+// =============================================================================
+
+.terms-page__breadcrumb {
+  font-family: $font-primary;
+  font-size: 13px;
+
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    color: $tp-muted;
+  }
+
+  li { display: inline-flex; align-items: center; }
+
+  li + li::before {
+    content: '/';
+    margin-right: 8px;
+    color: rgba(247, 245, 240, 0.35);
+  }
+
+  a {
+    color: $tp-muted;
+    text-decoration: none;
+    transition: color 180ms ease;
+
+    &:hover,
+    &:focus-visible { color: $tp-accent; }
+  }
+
+  li[aria-current='page'] {
+    color: $tp-text;
+    font-weight: 600;
+  }
+}
+
+// =============================================================================
+// Header
+// =============================================================================
+
+.terms-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 760px;
+  margin-top: 24px;
+
+  @media (min-width: 768px) {
+    margin-top: 48px;
+  }
+}
+
+.terms-page__eyebrow {
+  font-family: $font-primary;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: $tp-accent;
+  background: rgba(250, 234, 172, 0.10);
+  padding: 6px 14px;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.terms-page__title {
+  margin: 0;
+  font-family: $font-primary;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.terms-page__subtitle {
+  margin: 0;
+  font-family: $font-primary;
+  font-size: 16px;
+  line-height: 1.6;
+  color: $tp-muted;
+}
+
+.terms-page__meta {
+  margin: 4px 0 0;
+  font-family: $font-primary;
+  font-size: 13px;
+  color: rgba(247, 245, 240, 0.5);
+  letter-spacing: 0.02em;
+}
+
+// =============================================================================
+// Layout (sidebar + content)
+// =============================================================================
+
+.terms-page__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+  }
+}
+
+// =============================================================================
+// Sidebar (desktop only)
+// =============================================================================
+
+.terms-sidebar {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+}
+
+.terms-sidebar__label {
+  margin: 0 0 12px;
+  font-family: $font-primary;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(247, 245, 240, 0.5);
+}
+
+.terms-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.terms-sidebar__link {
+  display: block;
+  padding: 8px 12px;
+  font-family: $font-primary;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: $tp-muted;
+  text-decoration: none;
+  border-left: 2px solid $tp-line;
+  border-radius: 0 6px 6px 0;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+
+  &:hover,
+  &:focus-visible {
+    color: $tp-accent;
+    border-left-color: $tp-accent;
+    background: rgba(250, 234, 172, 0.06);
+    transform: translateX(2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(250, 234, 172, 0.40);
+    outline-offset: 2px;
+  }
+}
+
+// =============================================================================
+// Content sections
+// =============================================================================
+
+.terms-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0; // guards against grid blowing out on long links/code
+}
+
+.terms-section {
+  scroll-margin-top: 96px; // anchor offset (older browsers)
+  padding: 14px 0;
+
+  @media (min-width: 1024px) {
+    padding: 18px 0 8px;
+  }
+
+  &:hover {
+    .terms-section__heading {
+      // Subtle hover lift hint when the user is over a section card.
+      // No transform — keeps anchors stable when navigating.
+      color: $tp-text;
+    }
+  }
+}
+
+.terms-section__heading {
+  margin: 0;
+  font-family: $font-primary;
+  font-size: clamp(20px, 2.2vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: $tp-text;
+}
+
+// Toggle button — full width so the whole heading bar is tappable on mobile.
+// On desktop the chevron is hidden and the button is unstyled (looks like a heading).
+.terms-section__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid rgba(250, 234, 172, 0.40);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  @media (min-width: 1024px) {
+    cursor: default;
+    pointer-events: none; // desktop: heading is not a toggle
+  }
+}
+
+.terms-section__chev {
+  color: $tp-muted;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), color 180ms ease;
+  flex-shrink: 0;
+
+  .terms-section.is-open & {
+    transform: rotate(180deg);
+    color: $tp-accent;
+  }
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.terms-section__body {
+  padding-top: 12px;
+  color: $tp-soft;
+  font-family: $font-primary;
+  font-size: 15px;
+  line-height: 1.7;
+
+  p { margin: 0 0 12px; }
+  p:last-child { margin-bottom: 0; }
+
+  ul {
+    margin: 0 0 8px;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+      &::marker { color: $tp-accent-2; }
+    }
+  }
+
+  strong { color: $tp-text; font-weight: 700; }
+
+  a {
+    color: $tp-accent;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(250, 234, 172, 0.4);
+    transition: color 180ms ease, border-color 180ms ease;
+
+    &:hover,
+    &:focus-visible {
+      color: #FDEFB8; // hardcoded — modern Sass deprecates lighten()
+      border-bottom-color: $tp-accent;
+    }
+  }
+
+  // Mobile: hide the body when not open; CSS-driven so no layout flash.
+  @media (max-width: 1023.98px) {
+    display: none;
+  }
+}
+
+.terms-section.is-open .terms-section__body {
+  @media (max-width: 1023.98px) {
+    display: block;
+  }
+}
+
+.terms-section__divider {
+  border: 0;
+  border-top: 1px solid $tp-line;
+  margin: 22px 0 0;
+}
+
+// =============================================================================
+// Warning / emergency callout inside Medical Disclaimer
+// =============================================================================
+
+.terms-warning {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: $tp-warn-bg;
+  border: 1px solid $tp-warn-bd;
+  border-left: 3px solid $tp-warn;
+  border-radius: 12px;
+  color: $tp-text;
+
+  svg { color: $tp-warn; margin-top: 2px; flex-shrink: 0; }
+
+  p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  strong { color: $tp-text; }
+}
+
+// =============================================================================
+// Contact list
+// =============================================================================
+
+.terms-contact {
+  list-style: none;
+  padding-left: 0 !important;
+
+  li {
+    padding-left: 0;
+    &::marker { content: ''; }
+  }
+}
+
+.terms-contact__label {
+  display: inline-block;
+  min-width: 110px;
+  color: $tp-muted;
+  font-weight: 600;
+}
+
+// =============================================================================
+// Reduced motion — skip transforms / lift, keep colour changes for clarity.
+// =============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .terms-sidebar__link,
+  .terms-section__chev {
+    transition: color 0ms, border-color 0ms;
+    transform: none !important;
+  }
+}

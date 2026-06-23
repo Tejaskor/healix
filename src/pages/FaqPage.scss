@@ -1,0 +1,63 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// =============================================
+// FAQ Page
+// =============================================
+.faq-page {
+  width: 100%;
+}
+
+// =============================================
+// Hero
+// =============================================
+.faq-page__hero {
+  width: 100%;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    #E6F4F1 0%,
+    #CFEAE5 40%,
+    #9FD6CD 70%,
+    #6BB8AE 100%
+  );
+  padding: 7.5rem 1.5rem 13.5rem;
+
+  @media (min-width: 768px) {
+    padding: 7.5rem 2rem 14.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    min-height: 720px;
+    padding-bottom: 242px;
+  }
+}
+
+.faq-page__hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.faq-page__label {
+  font-family: $font-primary;
+  font-size: clamp(14px, 1.6vw, 18px);
+  font-weight: $font-weight-bold;
+  color: rgba(0, 0, 0, 0.55);
+  letter-spacing: 0.02em;
+}
+
+.faq-page__heading {
+  font-family: $font-primary;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 500;
+  color: $color-dark;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}

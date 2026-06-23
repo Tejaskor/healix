@@ -1,0 +1,162 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================
+// Peer Support Section
+// =============================================
+.peer {
+  width: 100%;
+  padding: $spacing-3xl 0;
+  background-color: #F7F5F0;
+  box-shadow: 0 -3px 16px rgba(0, 0, 0, 0.04);
+
+  @include desktop {
+    padding: $spacing-4xl 0;
+  }
+}
+
+.peer__inner {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @include tablet-up {
+    padding: 0 $spacing-xl;
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+  }
+
+  @include desktop {
+    padding: 0 $spacing-2xl;
+    gap: 64px;
+  }
+}
+
+// =============================================
+// Content — left side
+// =============================================
+.peer__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  order: 1;
+
+  @include tablet-up {
+    order: 0;
+  }
+
+  @media (max-width: 767px) {
+    order: 1;
+  }
+}
+
+.peer__badge {
+  display: inline-block;
+  font-family: $font-primary;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1A362D;
+  background-color: #FAEAAC;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.peer__heading {
+  font-family: $font-primary;
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 500;
+  color: #1A362D;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+.peer__description {
+  font-family: $font-primary;
+  font-size: clamp(14px, 1.4vw, 16px);
+  font-weight: $font-weight-regular;
+  color: rgba(26, 54, 45, 0.65);
+  line-height: 1.6;
+  margin: 0 0 24px;
+  max-width: 420px;
+}
+
+.peer__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: $font-weight-semibold;
+  color: #FAEAAC;
+  background-color: #1A362D;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 16px;
+
+  &:hover {
+    background-color: #2D4D3F;
+    color: #FAEAAC;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: 13px 28px;
+    font-size: 14px;
+  }
+}
+
+.peer__note {
+  font-family: $font-primary;
+  font-size: 11px;
+  font-weight: $font-weight-regular;
+  color: rgba(26, 54, 45, 0.38);
+  margin: 0;
+  line-height: 1.4;
+}
+
+// =============================================
+// Video — right side
+// =============================================
+.peer__video-wrap {
+  flex: 1.3;
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  order: 0;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
+  isolation: isolate;
+  contain: paint;
+
+  @include tablet-up {
+    order: 0;
+  }
+
+  @media (max-width: 767px) {
+    order: -1;
+    border-radius: 20px;
+  }
+}
+
+.peer__video {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}

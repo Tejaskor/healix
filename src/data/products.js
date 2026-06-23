@@ -1,0 +1,38 @@
+export const products = [
+  {
+    id: 1,
+    title: 'Finasteride',
+    subtitle: 'Hair loss treatment',
+    price: 'From $15/mo',
+    badge: 'Popular',
+    image: '/images/product-finasteride.jpg',
+    href: '#',
+  },
+  {
+    id: 2,
+    title: 'Minoxidil',
+    subtitle: 'Topical hair regrowth',
+    price: 'From $15/mo',
+    badge: null,
+    image: '/images/product-minoxidil.jpg',
+    href: '#',
+  },
+  {
+    id: 3,
+    title: 'Sildenafil',
+    subtitle: 'ED treatment',
+    price: 'From $2/dose',
+    badge: 'Best Seller',
+    image: '/images/product-sildenafil.jpg',
+    href: '#',
+  },
+  {
+    id: 4,
+    title: 'Anti-Aging Cream',
+    subtitle: 'Skincare essentials',
+    price: 'From $22/mo',
+    badge: 'New',
+    image: '/images/product-skincare.jpg',
+    href: '#',
+  },
+]

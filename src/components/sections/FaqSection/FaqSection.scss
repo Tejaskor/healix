@@ -1,0 +1,202 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================
+// FAQ Section
+// =============================================
+.faq {
+  width: 100%;
+  padding: $spacing-xl 0;
+  background-color: #F7F5F0;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.03);
+
+  @include desktop {
+    padding: $spacing-2xl 0 $spacing-xl;
+  }
+}
+
+.faq__container {
+  max-width: 1540px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+
+  @include tablet-up {
+    padding: 0 $spacing-xl;
+  }
+
+  @include desktop {
+    padding: 0 $spacing-2xl;
+  }
+}
+
+.faq__inner {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 40px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+
+  @include tablet-up {
+    flex-direction: row;
+    gap: 60px;
+    padding: 48px 40px;
+  }
+
+  @include desktop {
+    padding: 56px 56px;
+    gap: 60px;
+    border-radius: 32px;
+  }
+
+  @media (min-width: 1100px) {
+    display: grid;
+    grid-template-columns: 1fr 45%;
+    gap: 80px;
+  }
+}
+
+// =============================================
+// Left — heading + button
+// =============================================
+.faq__left {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+
+  @include tablet-up {
+    max-width: 320px;
+    position: sticky;
+    top: 100px;
+    align-self: flex-start;
+  }
+
+  @media (max-width: 767px) {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.faq__heading {
+  font-family: $font-primary;
+  font-size: clamp(28px, 4.5vw, 48px);
+  font-weight: 500;
+  color: #1A362D;
+  line-height: 1.15;
+  margin: 0;
+
+  @media (min-width: 1300px) {
+    white-space: nowrap;
+  }
+}
+
+.faq__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  color: #FAEAAC;
+  background-color: #1A362D;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: #2D4D3F;
+    color: #FAEAAC;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+}
+
+// =============================================
+// Right — accordion
+// =============================================
+.faq__right {
+  flex: 1;
+  min-width: 0;
+}
+
+// =============================================
+// Accordion item
+// =============================================
+.faq__item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.faq__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 0 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.faq__question-text {
+  font-family: $font-primary;
+  font-size: clamp(13px, 1.5vw, 16px);
+  font-weight: $font-weight-semibold;
+  color: #244236;
+  line-height: 1.4;
+}
+
+.faq__chevron {
+  flex-shrink: 0;
+  color: $color-dark;
+  transition: transform 0.35s ease;
+  opacity: 0.6;
+
+  .faq__item--open & {
+    transform: rotate(180deg);
+  }
+}
+
+// =============================================
+// Answer — expand/collapse
+// =============================================
+.faq__answer-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+  opacity: 0;
+
+  .faq__item--open & {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+.faq__answer {
+  font-family: $font-primary;
+  font-size: clamp(14px, 1.4vw, 16px);
+  font-weight: $font-weight-medium;
+  color: rgba(26, 54, 45, 0.68);
+  line-height: 1.65;
+  margin: 0;
+  padding: 14px 0 20px;
+  min-height: 0;
+  overflow: hidden;
+}

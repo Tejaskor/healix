@@ -1,0 +1,63 @@
+export const heroFeaturedCards = [
+  {
+    id: 1,
+    title: 'Lose weight',
+    titleBold: 'your way',
+    meta: 'from $69/mo*',
+    bg: '/images/card1-default-desktop.webp',
+    bgHover: '/images/card1-hover-desktop.webp',
+    href: '#',
+  },
+  {
+    id: 2,
+    title: 'See how much',
+    titleBold: 'weight you can lose',
+    meta: '↓ 22 lbs',
+    bg: '/images/card2-default-desktop.webp',
+    bgHover: '/images/card2-hover-desktop.webp',
+    href: '#',
+  },
+]
+
+export const heroCategoryCards = [
+  {
+    id: 1,
+    slug: 'sex',
+    title: 'Sexual',
+    titleBold: 'wellness',
+    iconDefault: '/images/h_Homepage_Better_Sex_Default_240-3.png',
+    iconHover: '/images/h_Homepage_Better_Sex_Rollover_480-3.png',
+    hoverBg: 'linear-gradient(162deg, rgb(77, 136, 186) 9.21%, rgb(111, 167, 215) 38.52%, rgb(111, 167, 215) 74.59%, rgb(77, 136, 186) 87.36%)',
+    href: '#',
+  },
+  {
+    id: 2,
+    slug: 'hair',
+    title: 'Hair',
+    titleBold: 'growth',
+    iconDefault: '/images/h_Homepage_Regrow_Hair_Default_480-2.png',
+    iconHover: '/images/h_Homepage_Regrow_Hair_Rollover_480-4.png',
+    hoverBg: 'linear-gradient(167deg, rgb(143, 43, 37) -3.36%, rgb(148, 60, 53) 33.89%, rgb(148, 60, 53) 76.39%, rgb(143, 43, 37) 95.99%)',
+    href: '#',
+  },
+  {
+    id: 3,
+    slug: 'testosterone',
+    title: '',
+    titleBold: 'Testosterone',
+    iconDefault: '/images/h_Homepage_Boost_Testosterone_Default_480-2.png',
+    iconHover: '/images/h_Homepage_Boost_Testosterone_Rollover_480-2.png',
+    hoverBg: 'linear-gradient(167deg, rgb(179, 186, 191) -3.36%, rgb(206, 219, 229) 33.89%, rgb(253, 234, 160) 79.75%, rgb(253, 234, 160) 95.99%)',
+    href: '#',
+  },
+  {
+    id: 4,
+    slug: 'health',
+    title: 'Health',
+    titleBold: 'check',
+    iconDefault: '/images/h_Homepage_Labs_Default_480.png',
+    iconHover: '/images/h_Homepage_Labs_Rollover_480.png',
+    hoverBg: '#B07B5B',
+    href: '#',
+  },
+]

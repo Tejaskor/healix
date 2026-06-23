@@ -1,0 +1,797 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================
+// NAVBAR — healix.com style
+// =============================================
+//
+//   ┌──────────────────────────────────────────────────────┐
+//   │  healix                                  [Log in]  ☰  │
+//   └──────────────────────────────────────────────────────┘
+//
+//   - Logo left, login + hamburger right
+//   - No inline nav links (all in sidebar)
+//   - Hamburger visible on ALL screen sizes
+//
+// =============================================
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: $z-navbar;
+  background-color: $color-white;
+  border-bottom: 1px solid transparent;
+  transition: border-color $transition-base, box-shadow $transition-base;
+
+  &--scrolled {
+    border-bottom-color: $color-gray-border;
+    box-shadow: $shadow-sm;
+  }
+
+  &__container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 12px 20px 0;
+    flex-wrap: wrap;
+
+    @include desktop {
+      min-height: 64px;
+      padding: 0 20px;
+      flex-wrap: nowrap;
+    }
+  }
+
+  // ── Logo ──
+  &__logo {
+    font-family: $font-primary;
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.03em;
+    color: $color-dark;
+    line-height: 1;
+    text-decoration: none;
+    user-select: none;
+
+    @include desktop {
+      font-size: 1.75rem;
+    }
+  }
+
+  // ── Right group ──
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  // Login — soft pill, subtle border
+  &__login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 18px;
+    font-family: $font-primary;
+    font-size: 13px;
+    font-weight: $font-weight-medium;
+    color: $color-dark;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: $radius-pill;
+    background-color: transparent;
+    transition: background-color 200ms ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+
+  // ── Hamburger — 3 thin lines, evenly spaced ──
+  &__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 38px;
+    height: 38px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  &__hamburger-bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: $color-dark;
+  }
+
+  // ── Overlay ──
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: $z-overlay - 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 350ms ease, visibility 350ms ease;
+
+    &--visible {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+// =============================================
+// SIDEBAR — off-canvas right panel
+// =============================================
+//
+//   ┌──────────────────────────────────┐
+//   │  Menu                         ✕  │
+//   │──────────────────────────────────│
+//   │  EXPLORE                         │
+//   │                                  │
+//   │  Weight Loss                  →  │
+//   │  Labs                         →  │
+//   │  Sexual Health                →  │
+//   │  Testosterone                 →  │
+//   │  Hair Regrowth                →  │
+//   │  Mental Health                →  │
+//   │  Skin                         →  │
+//   │  Everyday Health              →  │
+//   └──────────────────────────────────┘
+//
+// =============================================
+
+.sidebar {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(90vw, 420px);
+  background-color: $color-white;
+  z-index: $z-modal;
+  transform: translateX(100%);
+  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  &--open {
+    transform: translateX(0);
+  }
+
+  // ── Header row: "Menu" + close button ──
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-lg $spacing-lg $spacing-md;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-family: $font-primary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-dark;
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $color-dark;
+    border-radius: 50%;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $color-off-white;
+    }
+  }
+
+  // ── Section (EXPLORE) ──
+  &__section {
+    padding: 0 $spacing-lg;
+    flex: 1;
+  }
+
+  &__section-label {
+    display: block;
+    font-family: $font-primary;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $color-gray-border;
+    margin-bottom: 0;
+  }
+
+  // ── Links ──
+  &__links {
+    list-style: none;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-md 0;
+    border-bottom: 1px solid $color-gray-border;
+    text-decoration: none;
+    color: $color-dark;
+    font-family: $font-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    transition: color $transition-fast;
+
+    @include desktop {
+      font-size: $font-size-md;
+    }
+
+    svg {
+      color: $color-gray-light;
+      flex-shrink: 0;
+      transition: transform $transition-fast, color $transition-fast;
+    }
+
+    &:hover {
+      color: $color-gray;
+
+      svg {
+        color: $color-dark;
+        transform: translateX(3px);
+      }
+    }
+  }
+}
+
+// =============================================
+// Weight Loss sub-panel (slides from homepage sidebar)
+// =============================================
+.sidebar__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $color-white;
+  transform: translateX(100%);
+  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar__header--panel {
+    padding: 20px 24px;
+
+    .sidebar__title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 20px;
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  .sidebar__section {
+    padding: 0 24px;
+  }
+
+  .sidebar__section-label {
+    font-size: 12px;
+    font-weight: $font-weight-semibold;
+    color: #999;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-bottom: 12px;
+    margin-top: 16px;
+    margin-bottom: 0;
+    border-bottom: 1px solid $color-gray-border;
+  }
+
+  .sidebar__link {
+    min-height: 52px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: $font-weight-medium;
+    color: $color-dark;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f7f7f7;
+    }
+
+    svg {
+      color: #bbb;
+    }
+  }
+}
+
+// =============================================
+// Weight Loss Sidebar — rich layout (on WL page)
+// =============================================
+.sidebar-wl {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.sidebar-wl__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  flex-shrink: 0;
+}
+
+.sidebar-wl__title {
+  font-family: $font-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-dark;
+}
+
+.sidebar-wl__header-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+// ── Top Treatments cards ──
+.sidebar-wl__treatments {
+  background-color: #f6f6f6;
+  border-radius: 20px;
+  margin: 0 16px 16px;
+  padding: 16px;
+}
+
+.sidebar-wl__section-label {
+  display: block;
+  font-family: $font-primary;
+  font-size: 12px;
+  font-weight: $font-weight-semibold;
+  color: #999;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.sidebar-wl__cards-track {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.sidebar-wl__card {
+  flex: 0 0 160px;
+  background: $color-white;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* Disabled temporarily:
+     This sidebar treatment card is rendered as a plain <div> with no
+     onClick / Link wrapper, so the pointer cursor + hover shadow were
+     misleading UX. Re-enable when the card is wired up to navigate.
+  */
+  /* cursor: pointer; */
+  cursor: default;
+  /* transition: box-shadow 0.2s ease; */
+  min-height: 220px;
+
+  /*
+  &:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+  */
+}
+
+.sidebar-wl__card-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sidebar-wl__badge-rx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-family: $font-primary;
+  font-size: 8px;
+  font-weight: $font-weight-semibold;
+  color: $color-dark;
+  background: transparent;
+}
+
+.sidebar-wl__badge-tag {
+  font-family: $font-primary;
+  font-size: 9px;
+  font-weight: $font-weight-semibold;
+  color: #CF9358;
+  background-color: rgba(207, 147, 88, 0.12);
+  padding: 2px 8px;
+  border-radius: $radius-pill;
+  line-height: 1.4;
+}
+
+.sidebar-wl__card-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 100px;
+
+  img {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+  }
+}
+
+.sidebar-wl__card-name {
+  font-family: $font-primary;
+  font-size: 13px;
+  font-weight: $font-weight-bold;
+  color: $color-dark;
+  line-height: 1.3;
+}
+
+.sidebar-wl__card-sub {
+  font-family: $font-primary;
+  font-size: 11px;
+  font-weight: $font-weight-regular;
+  color: #999;
+  line-height: 1.3;
+}
+
+// ── Learn + Brands sections ──
+.sidebar-wl__section {
+  padding: 0 24px;
+  margin-bottom: 8px;
+
+  .sidebar-wl__section-label {
+    padding-bottom: 12px;
+    margin-top: 16px;
+    border-bottom: 1px solid $color-gray-border;
+  }
+
+  .sidebar__link {
+    min-height: 52px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: $font-weight-medium;
+    color: $color-dark;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f7f7f7;
+    }
+
+    svg {
+      color: #bbb;
+    }
+  }
+}
+
+// ── Brand card ──
+.sidebar-wl__brand-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f6f6f6;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-top: 12px;
+  /* Disabled temporarily:
+     The "OUR BRANDS" card is a static <div> with no link / onClick,
+     so the pointer cursor + hover background change were misleading.
+     Re-enable when the card is wired up to open forhers.com.
+  */
+  /* cursor: pointer; */
+  cursor: default;
+  /* transition: background-color 0.2s ease; */
+
+  /*
+  &:hover {
+    background-color: #eee;
+  }
+  */
+}
+
+.sidebar-wl__brand-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.sidebar-wl__brand-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sidebar-wl__brand-name {
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: $font-weight-bold;
+  color: $color-dark;
+  line-height: 1.2;
+}
+
+.sidebar-wl__brand-link {
+  font-family: $font-primary;
+  font-size: 11px;
+  color: #999;
+}
+
+.sidebar-wl__brand-arrow {
+  color: #bbb;
+  flex-shrink: 0;
+}
+
+.navbar__center {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  order: 4;
+  width: 100vw;
+  margin-left: -20px;
+  padding: 12px 20px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include desktop {
+    order: 0;
+    width: auto;
+    margin-left: 0;
+    padding: 0;
+    gap: 32px;
+    overflow-x: visible;
+  }
+}
+
+.navbar__link {
+  position: relative;
+  font-size: 13px;
+  font-weight: 600 !important;
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  padding-bottom: 4px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 1px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    transform: scaleX(0);
+    transform-origin: center;
+    opacity: 0;
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+
+  &--active::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  @include desktop {
+    font-size: inherit;
+  }
+}
+
+// =============================================
+// Sexual Health sub-menu (nested panel)
+// =============================================
+.sexual-sub {
+  .sexual-sub__header-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .sexual-sub__row {
+    align-items: flex-start;
+  }
+
+  .sexual-sub__row-main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .sexual-sub__row-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-weight: 600;
+  }
+
+  .sexual-sub__row-sub {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+  }
+
+  .sexual-sub__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    &--rx {
+      background-color: #eee;
+      color: #333;
+    }
+
+    &--new,
+    &--pop {
+      background-color: #dcefd3;
+      color: #1f5a2a;
+    }
+  }
+
+  // Top treatments cards (2 per row)
+  .sexual-sub__cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .sexual-sub__card {
+    position: relative;
+    background-color: #f5f3ef;
+    border-radius: 16px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sexual-sub__card-rx {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+  }
+
+  .sexual-sub__card-img {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 18px 0 16px;
+
+    img {
+      max-width: 110px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .sexual-sub__card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+    line-height: 1.3;
+  }
+
+  .sexual-sub__card-sub {
+    font-size: 12px;
+    color: #777;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  // Popular reads (2-column grid)
+  .sexual-sub__reads {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .sexual-sub__read {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sexual-sub__read-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #f5f3ef;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .sexual-sub__read-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    line-height: 1.3;
+  }
+
+  .sexual-sub__read-time {
+    font-size: 12px;
+    color: #777;
+    font-weight: 500;
+  }
+}

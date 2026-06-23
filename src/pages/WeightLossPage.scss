@@ -1,0 +1,271 @@
+.weight-hero {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  --b-color-neutral-light-1000: #fff;
+  background: linear-gradient(160deg, #F7F5F0 0%, #B5C1B4 50%, #FAEAAC 100%);
+  padding: 100px 0;
+}
+
+.weight-hero__container {
+  max-width: 1300px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 80px;
+  padding-bottom: 160px;
+
+  @media (max-width: 768px) {
+    gap: 40px;
+    padding-bottom: 60px;
+    align-items: flex-start;
+  }
+}
+
+.weight-hero__left {
+  flex: 1;
+}
+
+.weight-hero__title {
+  // Fluid scale: 30px on a 360px viewport → 55px at 1440px+.
+  // `clamp(min, preferred, max)` removes the need for stepwise
+  // media-query overrides at most breakpoints.
+  font-size: clamp(30px, calc(1.25rem + 2.5vw), 55px);
+  font-weight: 500;
+  line-height: 1.1;
+  color: rgba(36, 66, 54, 0.75);
+  margin: 0;
+  // word-spacing: -7px;
+
+  @media (min-width: 769px) {
+    margin-bottom: 50px;
+  }
+}
+
+// Accent span around "Weight loss" — darker colour + heavier weight
+// than the rest of the title.
+.weight-hero__title-accent {
+  color: #1a362d;
+  font-weight: 600;
+}
+
+.weight-hero__right {
+  flex: 1;
+  max-width: 480px;
+}
+
+.weight-hero__text {
+  word-spacing: -2px;
+  font-weight: 600;
+  // Fluid scale: 16px on a 360px viewport → 29px at 1440px+.
+  font-size: clamp(16px, calc(0.75rem + 1.1vw), 29px);
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: rgba(36, 66, 54, 0.80);
+}
+
+.weight-hero__btn {
+  font-weight:500;
+   color: rgba(36, 66, 54, 0.75);
+  background: #ffffff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 19px;
+  cursor: pointer;
+   transition: all 0.3s ease; /* 🔥 smooth hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.weight-hero__btn:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .weight-hero__container {
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .weight-hero__title {
+    text-align: left;
+    // font-size handled by the `clamp()` on the base rule.
+  }
+
+  .weight-hero__right {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .weight-hero__text {
+    text-align: left;
+  }
+}
+
+/* ================= CARDS SECTION ================= */
+
+.wl-cards {
+  width: 100%;
+  padding: 0;
+  overflow: visible;
+}
+
+.wl-cards__container {
+  width: 100%;
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;
+  padding: 120px 20px 80px;
+  cursor: grab;
+  user-select: none;
+
+  @media (min-width: 1340px) {
+    padding-left: calc((100vw - 1340px) / 2);
+    padding-right: 20px;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &::after {
+    content: '';
+    flex: 0 0 1px;
+  }
+}
+
+.wl-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: visible;
+  background: #f3eadf;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+  min-height: 550px;
+  height: 550px;
+}
+
+@media (max-width: 568px) {
+  .wl-card {
+    min-height: 480px;
+    height: 480px;
+  }
+}
+
+/* Disabled temporarily:
+   .wl-card has no click handler / link wrapping it, so this hover
+   "lift" was misleading UX. Re-enable when the card becomes interactive.
+*/
+/*
+.wl-card:hover {
+  transform: scale(1.02);
+}
+*/
+
+.wl-card--large { flex: 0 0 480px; }
+.wl-card--medium { flex: 0 0 480px; }
+.wl-card--small { flex: 0 0 280px; }
+
+@media (max-width: 579px) {
+  .wl-card--large,
+  .wl-card--medium {
+    flex: 0 0 85vw;
+  }
+
+  .wl-card--small {
+    flex: 0 0 65vw;
+  }
+}
+
+.wl-card--small {
+  background: linear-gradient(180deg, #FAEAAC 0%, #244236 100%);
+}
+
+.wl-card--large {
+  background: linear-gradient(180deg, #F7F5F0 0%, #B5C1B4 100%);
+}
+
+/* badge */
+.wl-card__badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* floating pills */
+.wl-card__pill {
+  position: absolute;
+  width: 250px;
+
+  @media (max-width: 579px) {
+    width: 55vw;
+    max-width: 200px;
+  }
+}
+
+.wl-card__pill--top {
+  top: -25%;
+  left: 38%;
+  transform: translateX(-50%);
+  animation: float 4s ease-in-out infinite; /* ✅ only top pill moves */
+}
+
+.wl-card__pill--bottom {
+  bottom: 0;
+  left: 20%;
+}
+
+@keyframes float {
+  0% { transform: translateY(-10px) rotate(-1deg); }
+  50% { transform: translateY(10px) rotate(1deg); }
+  100% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+/* image */
+.wl-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+/* overlay */
+.wl-card__overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #fff;
+}
+
+
+.wl-card__content {
+  position: absolute;
+  bottom: 20px;   /* keeps text inside card */
+  left: 20px;
+  z-index: 2;
+}
+
+.wl-card__content h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: #ffffff;
+}

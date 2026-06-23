@@ -1,0 +1,470 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================
+// HERO SECTION
+// =============================================
+
+.hero {
+  background-color: $color-white;
+  border-radius: 24px 24px 0 0;
+  position: relative;
+  padding: 0 0 $spacing-xl;
+
+  // Golden strip behind the rounded corners.
+  // The ::before extends above the hero and paints
+  // the announcement-bar gold color so the white
+  // rounded corners are visible against it.
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background-color: #1A362D;
+    z-index: -1;
+  }
+
+  @include tablet-up {
+    padding: 0 0 $spacing-2xl;
+  }
+
+  @include desktop {
+    padding: 0 0 $spacing-2xl;
+  }
+
+  // ── Heading ──
+  &__heading {
+    font-family: 'SofiaProWeb', $font-primary;
+    font-size: 2.25rem;
+    font-weight: $font-weight-regular;
+    line-height: 57px;
+    letter-spacing: -0.03em;
+    color: $color-dark;
+    margin-bottom: $spacing-lg;
+    max-width: 520px;
+
+    @include tablet-up {
+      font-size: 3rem;
+      margin-bottom: $spacing-xl;
+    }
+
+    @include desktop {
+      font-size: 57px;
+      margin-bottom: $spacing-2xl;
+      max-width: 600px;
+    }
+
+    @include large-desktop {
+      font-size: 57px;
+    }
+  }
+
+  // Accent word inside the heading (e.g. "healing").
+  &__heading-accent {
+    color: #357A64;
+    font-weight: 500;
+  }
+
+  // ── Featured Cards Grid ──
+  &__featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  // =============================================
+  // FEATURED CARD — background-image approach
+  // =============================================
+  //
+  //  Layer stack:
+  //    1. background-image (default) — on the card itself
+  //    2. ::before — gradient overlay for text readability
+  //    3. ::after  — hover image, fades in on hover
+  //    4. card-content — text, meta, arrow (z-index: 2)
+  //
+  //  ┌────────────────────────────────────────────────┐
+  //  │ bg-image: cover, center ██████████████████████ │
+  //  │ ┌─ ::before gradient (z:1) ─────────────────┐ │
+  //  │ │ ████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │ │
+  //  │ └───────────────────────────────────────────┘ │
+  //  │ ┌─ ::after hover-bg (z:1) ──────────────────┐ │
+  //  │ │ opacity:0 → 1 on hover                    │ │
+  //  │ └───────────────────────────────────────────┘ │
+  //  │ ┌─ content (z:2) ──────────────────────────┐  │
+  //  │ │ title, meta, arrow                       │  │
+  //  │ └──────────────────────────────────────────┘  │
+  //  └────────────────────────────────────────────────┘
+  //
+  &__card {
+    position: relative;
+    display: block;
+    height: 199px;
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    color: $color-white;
+    cursor: pointer;
+
+    // Default background image via CSS custom property
+    background-image: var(--card-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #a08565; // fallback while loading
+
+    // Gradient overlay for text readability
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      background: none;
+      pointer-events: none;
+    }
+
+    // Hover image layer — same size, fades in on hover
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      background-image: var(--card-bg-hover);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 500ms ease-in-out;
+      pointer-events: none;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+
+  // =============================================
+  // CARD CONTENT — text on top of background
+  // =============================================
+  &__card-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: $spacing-md;
+
+    @include tablet-up {
+      padding: $spacing-md $spacing-lg;
+    }
+
+    @include desktop {
+      padding: $spacing-lg $spacing-xl;
+    }
+  }
+
+  &__card-top {
+    // top anchor — space-between handles spacing
+  }
+
+  &__card-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__card-title-line {
+    font-family: $font-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    line-height: 1.3;
+    color: $color-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+    @include tablet-up {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__card-title-bold {
+    font-family: $font-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    line-height: 1.25;
+    color: $color-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+    @include tablet-up {
+      font-size: $font-size-md;
+    }
+  }
+
+  &__card-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+
+  &__card-meta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__card-curve {
+    width: 50px;
+    height: 20px;
+    color: rgba(255, 255, 255, 0.85);
+
+    @include desktop {
+      width: 60px;
+      height: 22px;
+    }
+  }
+
+  &__card-meta {
+    font-family: $font-primary;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+
+    @include tablet-up {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // =============================================
+  // ARROW
+  // =============================================
+  &__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform $transition-base;
+
+    svg {
+      display: block;
+    }
+  }
+
+  &__arrow--card {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: $color-white;
+    backdrop-filter: blur(4px);
+    transition: background-color $transition-base, transform $transition-base;
+
+    @include desktop {
+      width: 36px;
+      height: 36px;
+    }
+
+    .hero__card:hover & {
+      background-color: rgba(255, 255, 255, 0.35);
+      transform: translateX(3px);
+    }
+  }
+
+  // =============================================
+  // CATEGORY CARDS
+  // =============================================
+  &__categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+
+    @media (min-width: 740px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1266px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+  }
+
+  // =============================================
+  // CATEGORY CARD — hover changes bg color + text to white
+  // =============================================
+  //
+  //  Default:  #eae6e1 bg, dark text, default icon visible
+  //  Hover:    var(--hover-bg) bg, white text, hover icon visible
+  //  Transition: 0.3s ease on background-color and color
+  //
+  &__cat-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-md;
+    background: linear-gradient(167deg, #f4f1e6 0%, #faf8f2 38%, #faf8f2 84%, #f4f1e6 100%);
+    border-radius: 20px;
+    text-decoration: none;
+    color: $color-dark;
+    transition: color 0.3s ease;
+    min-height: 44px;
+    overflow: hidden;
+
+    @include desktop {
+      padding: $spacing-sm $spacing-lg;
+      min-height: 52px;
+    }
+
+    // Hover gradient layer — fades in on hover
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--hover-bg);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+
+    &:hover {
+      color: $color-white;
+    }
+
+    // Ensure all children sit above the ::before layer
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__cat-label {
+    font-family: $font-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-snug;
+    letter-spacing: -0.055625rem;
+    color: #37556e;
+    transition: color 0.3s ease;
+
+    @include desktop {
+      font-size: $font-size-md;
+    }
+
+    strong {
+      font-weight: $font-weight-bold;
+      color: #4e799e; // default — sex card bold
+      transition: color 0.3s ease;
+    }
+
+    .hero__cat-card:hover & {
+      color: $color-white;
+
+      strong {
+        color: $color-white;
+      }
+    }
+  }
+
+  // ── Per-card text colors ──
+  &__cat-card--sex .hero__cat-label {
+    color: #37556e;
+
+    strong { color: #4e799e; }
+  }
+
+  &__cat-card--hair .hero__cat-label {
+    color: #612924;
+
+    strong { color: #8a3a34; }
+  }
+
+  &__cat-card--testosterone .hero__cat-label {
+    color: #2e3f43;
+
+    strong { color: #6d8d9e; }
+  }
+
+  &__cat-card--testosterone:hover .hero__cat-label {
+    color: #2e3f43;
+
+    strong { color: #6d8d9e; }
+  }
+
+  &__cat-card--health .hero__cat-label {
+    color: #714e2c;
+
+    strong { color: #bf8e5e; }
+  }
+
+  &__cat-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  // Icon container — holds both default + hover images stacked
+  &__cat-icon {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+
+  &__cat-icon-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+
+    &--default {
+      opacity: 1;
+    }
+
+    &--hover {
+      opacity: 0;
+    }
+
+    .hero__cat-card:hover &--default {
+      opacity: 0;
+    }
+
+    .hero__cat-card:hover &--hover {
+      opacity: 1;
+    }
+  }
+
+  // Arrow turns white on hover
+  &__arrow--cat {
+    color: $color-dark;
+    opacity: 0.5;
+    width: 24px;
+    height: 24px;
+    transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+
+    .hero__cat-card:hover & {
+      color: $color-white;
+      opacity: 1;
+      transform: translateX(3px);
+    }
+
+    // Testosterone card keeps dark arrow on hover
+    .hero__cat-card--testosterone:hover & {
+      color: $color-dark;
+    }
+  }
+}

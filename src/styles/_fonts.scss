@@ -1,0 +1,15 @@
+// =============================================
+// Font Declarations
+// =============================================
+// Performance: DM Sans is now loaded via a real <link rel="stylesheet"> in
+// index.html with a preconnect + preload pair, so the browser fires the
+// request alongside the JS bundle instead of waiting for CSS to parse the
+// @import below.
+//
+// The original @import is preserved here as a comment for reference / fast
+// rollback; do not uncomment it without also removing the <link> tags from
+// index.html or the font will be requested twice.
+
+/*
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+*/

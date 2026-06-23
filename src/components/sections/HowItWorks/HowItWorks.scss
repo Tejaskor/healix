@@ -1,0 +1,188 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================
+// How It Works Section
+// =============================================
+.hiw {
+  width: 100%;
+  padding: $spacing-3xl 0;
+  background-color: #F7F5F0;
+  box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.03);
+
+  @include desktop {
+    padding: $spacing-xl 0 $spacing-4xl;
+  }
+}
+
+.hiw__inner {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @include tablet-up {
+    padding: 0 $spacing-xl;
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+  }
+
+  @include desktop {
+    padding: 0 $spacing-xl;
+    gap: 64px;
+  }
+
+  @media (min-width: 1300px) {
+    padding: 0 90px;
+  }
+}
+
+// =============================================
+// Image
+// =============================================
+.hiw__image-wrap {
+  flex: 1.4;
+  order: 2;
+  min-height: 540px;
+
+  @include tablet-up {
+    order: 0;
+  }
+
+  @include desktop {
+    min-height: 680px;
+  }
+
+  @media (max-width: 767px) {
+    min-height: 300px;
+  }
+}
+
+.hiw__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 24px;
+  object-fit: cover;
+
+  @media (max-width: 767px) {
+    border-radius: 20px;
+  }
+}
+
+// =============================================
+// Content
+// =============================================
+.hiw__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  order: 1;
+
+  @include tablet-up {
+    order: 0;
+  }
+
+  @media (max-width: 767px) {
+    align-items: flex-start;
+  }
+}
+
+.hiw__heading {
+  font-family: $font-primary;
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 500;
+  color: $color-dark;
+  line-height: 1.15;
+  margin: 0 0 32px;
+}
+
+// =============================================
+// Steps
+// =============================================
+.hiw__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 36px;
+  width: 100%;
+}
+
+.hiw__step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.hiw__step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 50%;
+  background-color: #FAEAAC;
+  color: #1A362D;
+  font-family: $font-primary;
+  font-size: 10px;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.hiw__step-text {
+  flex: 1;
+}
+
+.hiw__step-title {
+  font-family: $font-primary;
+  font-size: clamp(14px, 1.4vw, 16px);
+  font-weight: $font-weight-bold;
+  color: $color-dark;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.hiw__step-desc {
+  font-family: $font-primary;
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: $font-weight-regular;
+  color: $color-gray;
+  line-height: 1.6;
+  margin: 0;
+}
+
+// =============================================
+// Button
+// =============================================
+.hiw__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: $font-weight-semibold;
+  color: #FAEAAC;
+  background-color: #1A362D;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background-color: #2D4D3F;
+    color: #FAEAAC;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+}

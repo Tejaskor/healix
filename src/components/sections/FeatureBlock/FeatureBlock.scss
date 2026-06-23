@@ -1,0 +1,62 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.feature-block {
+  padding: $spacing-3xl 0;
+
+  @include desktop {
+    padding: $spacing-4xl 0;
+  }
+
+  &__grid {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+    align-items: center;
+
+    @include desktop {
+      flex-direction: row;
+      gap: $spacing-3xl;
+    }
+  }
+
+  // Image-right variant: swap column order on desktop
+  &--right {
+    .feature-block__grid {
+      @include desktop {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+
+  &__image-col {
+    flex: 1;
+    width: 100%;
+  }
+
+  &__image-wrapper {
+    border-radius: $radius-lg;
+    overflow: hidden;
+    background-color: $color-primary-light;
+    aspect-ratio: 4 / 3;
+
+    @include desktop {
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__content-col {
+    flex: 1;
+    width: 100%;
+
+    @include desktop {
+      padding: $spacing-xl 0;
+    }
+  }
+}

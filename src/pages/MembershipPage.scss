@@ -1,0 +1,267 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// =============================================
+// Membership Page
+// =============================================
+.mem-page {
+  width: 100%;
+}
+
+// =============================================
+// Hero — single continuous section with bg
+// =============================================
+.mem-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: $spacing-3xl 0 $spacing-3xl;
+
+  @include desktop {
+    padding: $spacing-4xl 0 $spacing-4xl;
+  }
+}
+
+.mem-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.mem-hero__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+// =============================================
+// Hero text content
+// =============================================
+.mem-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg $spacing-4xl;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @include tablet-up {
+    padding: 0 $spacing-xl $spacing-4xl;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 80px;
+  }
+
+  @include desktop {
+    padding: 0 $spacing-2xl $spacing-5xl;
+    gap: 120px;
+  }
+}
+
+.mem-hero__left {
+  flex: 1;
+}
+
+.mem-hero__label {
+  display: inline-block;
+  font-family: $font-primary;
+  font-size: 17px;
+  font-weight: $font-weight-semibold;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 16px;
+  letter-spacing: 0.03em;
+}
+
+.mem-hero__heading {
+  font-family: $font-primary;
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.05;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+// Muted intro line inside the heading (e.g. "Not just treatment")
+// — softer colour + smaller size than the main line below it.
+.mem-hero__heading-muted {
+  color: #aea6a6;
+  font-size: clamp(22px, 4vw, 42px);
+}
+
+.mem-hero__right {
+  flex: 1;
+  max-width: 520px;
+  align-self: flex-start;
+
+  @media (max-width: 767px) {
+    max-width: 100%;
+  }
+}
+
+.mem-hero__description {
+  font-family: $font-primary;
+  font-size: clamp(18px, 2.4vw, 27px);
+  font-weight: $font-weight-medium;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  margin: 0 0 32px;
+}
+
+.mem-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 15px;
+  font-family: $font-primary;
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+  color: #1A362D;
+  background-color: rgba(247, 245, 240, 0.92);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background-color: #FAEAAC;
+    color: #1A362D;
+  }
+}
+
+// =============================================
+// Cards track — horizontal scroll, inside hero
+// =============================================
+.mem-cards__track {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+  padding: 0 $spacing-lg;
+
+  @include tablet-up {
+    padding: 0 $spacing-xl;
+    gap: 18px;
+  }
+
+  @include desktop {
+    padding: 0 $spacing-2xl;
+  }
+
+  @media (min-width: 1340px) {
+    padding-left: calc((100vw - 1340px) / 2);
+    padding-right: calc((100vw - 1340px) / 2);
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &::after {
+    content: '';
+    flex: 0 0 1px;
+  }
+}
+
+// =============================================
+// Card base
+// =============================================
+.mem-cards__card {
+  position: relative;
+  border-radius: 52px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mem-cards__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+// Scoped to the card that has BOTH `--tall` and `--wide` modifiers
+// only — leaves all other card variants at the base 100% height.
+.mem-cards__card--tall.mem-cards__card--wide .mem-cards__card-img {
+  height: 114%;
+}
+
+// =============================================
+// Card sizes
+// =============================================
+.mem-cards__card--tall {
+  width: 340px;
+  height: 500px;
+
+  @include tablet-up {
+    width: 360px;
+    height: 540px;
+  }
+
+  @include desktop {
+    width: 380px;
+    height: 580px;
+  }
+}
+
+.mem-cards__card--wide {
+  width: 440px;
+
+  @include tablet-up {
+    width: 470px;
+  }
+
+  @include desktop {
+    width: 500px;
+  }
+}
+
+// =============================================
+// Stacked column (right side)
+// =============================================
+.mem-cards__card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+
+  @include desktop {
+    gap: 18px;
+  }
+}
+
+.mem-cards__card--half {
+  width: 300px;
+  height: 242px;
+
+  @include tablet-up {
+    width: 320px;
+    height: 261px;
+  }
+
+  @include desktop {
+    width: 340px;
+    height: 281px;
+  }
+}

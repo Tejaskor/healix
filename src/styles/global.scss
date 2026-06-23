@@ -1,0 +1,82 @@
+@use 'reset';
+@use 'fonts';
+@use 'variables' as *;
+
+// =============================================
+// Global Styles
+// =============================================
+
+body {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+  color: $color-dark;
+  background-color: $color-background;
+}
+
+::selection {
+  background-color: $color-primary;
+  color: $color-dark;
+}
+
+// =============================================
+// App layout — classic "sticky footer" pattern.
+// ---------------------------------------------
+// `.app-layout` is the top-level flex column. `.main-content` is set
+// to grow into remaining vertical space so the <Footer/> always stays
+// at the bottom of the viewport — even on pages whose content is
+// shorter than the viewport (legal pages on tall screens, error
+// states, etc). Sticky elements (navbar, sidebars) continue to work
+// because flex doesn't establish a new scroll container.
+// =============================================
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // Defensive: contain any horizontal overflow from a descendant so
+  // the body bg never shows as a right-side gap. `clip` (vs hidden)
+  // doesn't establish a scroll container, so `position: sticky` on
+  // navbars / sidebars still works.
+  overflow-x: clip;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  width: 100%;
+  overflow-x: clip;
+}
+
+// Utility: screen-reader only
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// =============================================
+// Placeholder buttons / anchors
+// ---------------------------------------------
+// Buttons and anchors that do not yet have a real action wired up
+// are tagged in JSX with `aria-disabled="true"`. This rule:
+//   • keeps the visual styling intact (no design change),
+//   • forces the cursor back to default,
+//   • disables hover/active/click via pointer-events: none — which
+//     means every existing :hover {transform/box-shadow/...} block
+//     declared on those elements stays in the SCSS but never fires.
+//
+// To restore real interactivity later, simply remove the
+// `aria-disabled="true"` attribute (or wire up onClick/href/to) —
+// the original :hover styles will resume working automatically.
+// =============================================
+[aria-disabled='true'] {
+  cursor: default !important;
+  pointer-events: none;
+}

@@ -1,0 +1,425 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// Palette aligned with Sitemap + Terms pages so all three legal pages
+// feel like siblings.
+$pp-bg:       #0F1E18;
+$pp-bg-2:     #142B23;
+$pp-surface:  #1A362D;
+$pp-line:     rgba(247, 245, 240, 0.10);
+$pp-line-2:   rgba(247, 245, 240, 0.18);
+$pp-text:     #F7F5F0;
+$pp-muted:    rgba(247, 245, 240, 0.66);
+$pp-soft:     rgba(247, 245, 240, 0.78);
+$pp-accent:   #FAEAAC;
+$pp-accent-2: #2f8f5f;
+$pp-notice:   #9BD7B5;
+$pp-notice-bg: rgba(47, 143, 95, 0.16);
+$pp-notice-bd: rgba(155, 215, 181, 0.32);
+
+// =============================================================================
+// Page shell
+// =============================================================================
+
+.privacy-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  // Top padding intentionally minimal so the breadcrumb sits right
+  // beneath the sticky navbar; bottom keeps the original breathing room.
+  padding: 16px 20px 96px;
+  background:
+    radial-gradient(60% 50% at 50% 0%, $pp-bg-2 0%, $pp-bg 65%),
+    $pp-bg;
+  color: $pp-text;
+  isolation: isolate;
+  // Bottom corners square so the dark page bg flushes straight into the
+  // footer. `clip` (vs hidden) keeps `position: sticky` working on the
+  // sidebar — hidden would create a scroll container that traps it.
+  overflow: clip;
+  scroll-padding-top: 96px;
+
+  @media (min-width: 768px) {
+    padding: 20px 32px 128px;
+  }
+}
+
+.privacy-page__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+// =============================================================================
+// Breadcrumb
+// =============================================================================
+
+.privacy-page__breadcrumb {
+  font-family: $font-primary;
+  font-size: 13px;
+
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    color: $pp-muted;
+  }
+
+  li { display: inline-flex; align-items: center; }
+
+  li + li::before {
+    content: '/';
+    margin-right: 8px;
+    color: rgba(247, 245, 240, 0.35);
+  }
+
+  a {
+    color: $pp-muted;
+    text-decoration: none;
+    transition: color 180ms ease;
+
+    &:hover,
+    &:focus-visible { color: $pp-accent; }
+  }
+
+  li[aria-current='page'] {
+    color: $pp-text;
+    font-weight: 600;
+  }
+}
+
+// =============================================================================
+// Header
+// =============================================================================
+
+.privacy-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 760px;
+  margin-top: 24px;
+
+  @media (min-width: 768px) {
+    margin-top: 48px;
+  }
+}
+
+.privacy-page__eyebrow {
+  font-family: $font-primary;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: $pp-accent;
+  background: rgba(250, 234, 172, 0.10);
+  padding: 6px 14px;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.privacy-page__title {
+  margin: 0;
+  font-family: $font-primary;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.privacy-page__subtitle {
+  margin: 0;
+  font-family: $font-primary;
+  font-size: 16px;
+  line-height: 1.6;
+  color: $pp-muted;
+}
+
+.privacy-page__meta {
+  margin: 4px 0 0;
+  font-family: $font-primary;
+  font-size: 13px;
+  color: rgba(247, 245, 240, 0.5);
+  letter-spacing: 0.02em;
+}
+
+// =============================================================================
+// Layout (sidebar + content)
+// =============================================================================
+
+.privacy-page__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 240px 1fr;
+    gap: 48px;
+  }
+}
+
+// =============================================================================
+// Sidebar
+// =============================================================================
+
+.privacy-sidebar {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+}
+
+.privacy-sidebar__label {
+  margin: 0 0 12px;
+  font-family: $font-primary;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(247, 245, 240, 0.5);
+}
+
+.privacy-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.privacy-sidebar__link {
+  display: block;
+  padding: 8px 12px;
+  font-family: $font-primary;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: $pp-muted;
+  text-decoration: none;
+  border-left: 2px solid $pp-line;
+  border-radius: 0 6px 6px 0;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+
+  &:hover,
+  &:focus-visible {
+    color: $pp-accent;
+    border-left-color: $pp-accent;
+    background: rgba(250, 234, 172, 0.06);
+    transform: translateX(2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(250, 234, 172, 0.40);
+    outline-offset: 2px;
+  }
+}
+
+// =============================================================================
+// Sections
+// =============================================================================
+
+.privacy-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.privacy-section {
+  scroll-margin-top: 96px;
+  padding: 14px 0;
+
+  @media (min-width: 1024px) {
+    padding: 18px 0 8px;
+  }
+}
+
+.privacy-section__heading {
+  margin: 0;
+  font-family: $font-primary;
+  font-size: clamp(20px, 2.2vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: $pp-text;
+}
+
+.privacy-section__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid rgba(250, 234, 172, 0.40);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  @media (min-width: 1024px) {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+.privacy-section__chev {
+  color: $pp-muted;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), color 180ms ease;
+  flex-shrink: 0;
+
+  .privacy-section.is-open & {
+    transform: rotate(180deg);
+    color: $pp-accent;
+  }
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.privacy-section__body {
+  padding-top: 12px;
+  color: $pp-soft;
+  font-family: $font-primary;
+  font-size: 15px;
+  line-height: 1.7;
+
+  p { margin: 0 0 12px; }
+  p:last-child { margin-bottom: 0; }
+
+  ul {
+    margin: 0 0 8px;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+      &::marker { color: $pp-accent-2; }
+    }
+  }
+
+  strong { color: $pp-text; font-weight: 700; }
+
+  a {
+    color: $pp-accent;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(250, 234, 172, 0.4);
+    transition: color 180ms ease, border-color 180ms ease;
+
+    &:hover,
+    &:focus-visible {
+      color: #FDEFB8;
+      border-bottom-color: $pp-accent;
+    }
+  }
+
+  @media (max-width: 1023.98px) {
+    display: none;
+  }
+}
+
+.privacy-section.is-open .privacy-section__body {
+  @media (max-width: 1023.98px) {
+    display: block;
+  }
+}
+
+.privacy-section__divider {
+  border: 0;
+  border-top: 1px solid $pp-line;
+  margin: 22px 0 0;
+}
+
+// Subsection headings inside "Information We Collect" — smaller, accented.
+.privacy-subheading {
+  margin: 18px 0 8px;
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: $pp-accent;
+  text-transform: none;
+}
+
+// =============================================================================
+// Security notice callout (Telehealth section)
+// =============================================================================
+
+.privacy-notice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: $pp-notice-bg;
+  border: 1px solid $pp-notice-bd;
+  border-left: 3px solid $pp-notice;
+  border-radius: 12px;
+  color: $pp-text;
+
+  svg { color: $pp-notice; margin-top: 2px; flex-shrink: 0; }
+
+  p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  strong { color: $pp-text; }
+}
+
+// =============================================================================
+// Contact list
+// =============================================================================
+
+.privacy-contact {
+  list-style: none;
+  padding-left: 0 !important;
+
+  li {
+    padding-left: 0;
+    &::marker { content: ''; }
+  }
+}
+
+.privacy-contact__label {
+  display: inline-block;
+  min-width: 110px;
+  color: $pp-muted;
+  font-weight: 600;
+}
+
+// =============================================================================
+// Reduced motion
+// =============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .privacy-sidebar__link,
+  .privacy-section__chev {
+    transition: color 0ms, border-color 0ms;
+    transform: none !important;
+  }
+}

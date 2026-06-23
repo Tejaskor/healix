@@ -1,0 +1,162 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================
+// Membership Section
+// =============================================
+.membership {
+  width: 100%;
+  padding: $spacing-3xl 0;
+  background-color: #F7F5F0;
+  box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.03);
+
+  @include desktop {
+    padding: $spacing-4xl 0;
+  }
+}
+
+.membership__inner {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 40px;
+
+  @include tablet-up {
+    padding: 0 $spacing-xl;
+    flex-direction: row;
+    align-items: center;
+    gap: 60px;
+  }
+
+  @include desktop {
+    padding: 0 $spacing-2xl;
+    gap: 80px;
+  }
+}
+
+// =============================================
+// Left: Content
+// =============================================
+.membership__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  @include tablet-up {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+.membership__heading {
+  font-family: $font-primary;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 500;
+  color: #1A362D;
+  line-height: 1.15;
+  margin: 0 0 $spacing-xl;
+}
+
+// =============================================
+// Checklist
+// =============================================
+.membership__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0 0 $spacing-xl;
+}
+
+.membership__list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: $font-primary;
+  font-size: clamp(14px, 1.6vw, 17px);
+  font-weight: $font-weight-semibold;
+  color: $color-dark;
+  line-height: 1.4;
+}
+
+.membership__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #FAEAAC;
+  color: #1A362D;
+  font-size: 13px;
+  font-weight: $font-weight-bold;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+// =============================================
+// Button
+// =============================================
+.membership__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: $font-weight-semibold;
+  color: #FAEAAC;
+  background-color: #1A362D;
+  border: none;
+  border-radius: $radius-pill;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: #FAEAAC;
+    color: #1A362D;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+}
+
+// =============================================
+// Right: Video
+// =============================================
+.membership__video-wrap {
+  flex: 1;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+
+  @media (max-width: 767px) {
+    border-radius: 20px;
+    width: 100%;
+  }
+}
+
+.membership__video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4 / 5;
+
+  @include tablet-up {
+    aspect-ratio: 3 / 4;
+  }
+
+  @include desktop {
+    aspect-ratio: auto;
+    min-height: 580px;
+  }
+}

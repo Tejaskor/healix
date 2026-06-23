@@ -1,0 +1,1414 @@
+@use '../styles/variables' as *;
+
+.ec-page {
+  width: 100%;
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: clip;
+}
+
+.ec-page__main {
+  flex: 1;
+}
+
+// =============================================
+// EC hero — text left + video right (mirrors the ED hero structure)
+// Mobile stacks video first, text second.
+// =============================================
+.ec-hero {
+  width: 100%;
+  background-color: #9b8082;
+  padding: 24px 16px 40px;
+
+  @media (min-width: 576px) {
+    padding: 28px 20px 48px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 32px 40px 56px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 40px 60px 64px;
+  }
+
+  @media (min-width: 1280px) {
+    padding: 48px 80px 72px;
+  }
+}
+
+.ec-hero__inner {
+  max-width: 1720px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (min-width: 900px) {
+    gap: 36px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 48px;
+  }
+
+  @media (min-width: 1280px) {
+    gap: 64px;
+  }
+
+  @media (min-width: 1440px) {
+    gap: 80px;
+  }
+}
+
+// Video column
+.ec-hero__media {
+  width: 100%;
+  order: 2;
+  display: flex;
+
+  @media (max-width: 575px) {
+    margin-bottom: -40px;
+  }
+
+  @media (min-width: 576px) and (max-width: 767px) {
+    margin-bottom: -48px;
+  }
+
+  @media (min-width: 768px) {
+    order: 2;
+    // Stretch to fill the grid row height and overshoot the hero's
+    // vertical padding so the video touches the section top and bottom.
+    align-self: stretch;
+    margin-top: -32px;
+    margin-bottom: -56px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: -40px;
+    margin-bottom: -64px;
+  }
+
+  @media (min-width: 1280px) {
+    margin-top: -48px;
+    margin-bottom: -72px;
+  }
+}
+
+.ec-hero__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 20px;
+  background-color: #9b8082;
+
+  @media (max-width: 767px) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  @media (min-width: 768px) {
+    aspect-ratio: auto;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    flex: 1;
+    margin-left: auto;
+  }
+}
+
+// Text column
+.ec-hero__content {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  word-spacing: -1px;
+  color: #1a1a1a;
+  min-width: 0;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    order: 1;
+    align-self: start;
+    padding-top: 12px;
+    padding-right: 8px;
+    padding-left: 12px;
+  }
+
+  @media (min-width: 900px) {
+    padding-top: 16px;
+    padding-left: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-top: 20px;
+    padding-left: 32px;
+  }
+
+  @media (min-width: 1152px) {
+    padding-top: 24px;
+    padding-left: 40px;
+  }
+
+  @media (min-width: 1280px) {
+    padding-top: 28px;
+    padding-left: 48px;
+  }
+
+  @media (min-width: 1440px) {
+    padding-top: 32px;
+    padding-left: 56px;
+  }
+}
+
+.ec-hero__heading {
+  font-family: $font-primary;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
+  margin: 0 0 24px;
+
+  @media (min-width: 400px) { font-size: 20px; }
+  @media (min-width: 480px) { font-size: 22px; }
+  @media (min-width: 576px) { font-size: 24px; }
+  @media (min-width: 680px) { font-size: 26px; }
+  @media (min-width: 768px) { font-size: 34px; margin-bottom: 28px; line-height: 1.1; }
+  @media (min-width: 1024px) { font-size: 40px; margin-bottom: 32px; }
+  @media (min-width: 1280px) { font-size: 46px; }
+}
+
+.ec-hero__accent {
+  color: #665A5B;
+}
+
+.ec-hero__heading-break {
+  // Hide on mobile so the heading flows on a single line; at ≥768px the <br>
+  // forces the two-line layout from the design.
+  @media (max-width: 767.98px) {
+    display: none;
+  }
+}
+
+// Feature list
+.ec-hero__features {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 32px;
+    gap: 16px;
+  }
+}
+
+.ec-hero__feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.4;
+
+  @media (min-width: 768px) { font-size: 16px; }
+  @media (min-width: 1024px) { font-size: 17px; }
+  @media (min-width: 1280px) { font-size: 18px; }
+}
+
+.ec-hero__feature-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    width: 38px;
+    height: 38px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+.ec-hero__feature-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.ec-hero__feature-text {
+  flex: 1;
+}
+
+// Buttons
+.ec-hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  @media (min-width: 576px) {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  @media (min-width: 768px) {
+    gap: 14px;
+  }
+}
+
+// Soften the outline button's border for this tinted hero.
+.ec-hero__btn--outline {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+// Slightly roomier hero buttons on the Early Climax page.
+.ec-hero .ed-hero__btn {
+  font-size: 12px;
+  padding: 11px 22px;
+
+  @media (min-width: 768px) { font-size: 13px; padding: 12px 24px; }
+  @media (min-width: 1024px) { font-size: 14px; padding: 13px 26px; }
+  @media (min-width: 1280px) { font-size: 15px; padding: 14px 28px; }
+
+  // Soft hover — only fade the background a touch, keep text color intact.
+  &.ed-hero__btn--primary:hover {
+    background-color: rgba(17, 17, 17, 0.82);
+    color: #ffffff;
+    border-color: rgba(17, 17, 17, 0.82);
+  }
+
+  &.ed-hero__btn--outline:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #111;
+    border-color: rgba(0, 0, 0, 0.24);
+  }
+}
+
+// Disclaimer
+// =============================================
+// PE products — override ed-products media so the image fills the whole
+// card-media area (badges are already baked into the images).
+// =============================================
+.ed-products--pe {
+  // Heading break: at ≥1092px force exactly two lines
+  //   Line 1: "Doctor-trusted premature"
+  //   Line 2: "ejaculation treatment"
+  // Below 1092px, the text wraps naturally.
+  .ec-pe__heading-break {
+    display: none;
+
+    @media (min-width: 1092px) {
+      display: inline;
+    }
+  }
+
+  .ed-products__card-media {
+    background-color: transparent;
+    padding: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .ed-products__card-img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: none;
+  }
+
+  // No separate badge divs rendered, but hide in case any slip through.
+  .ed-products__badges {
+    display: none;
+  }
+
+  // Softer, smaller fineprint on the PE section.
+  .ed-products__fineprint {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b6b6b;
+
+    @media (min-width: 768px) { font-size: 12px; }
+    @media (min-width: 1024px) { font-size: 12px; }
+    @media (min-width: 1280px) { font-size: 13px; }
+  }
+
+  // Allow the scroll track to extend further so the last card can scroll
+  // all the way toward the left end of the screen.
+  .ed-products__track {
+    // Extra trailing space so the cards can slide further to the left.
+    padding-right: 40vw;
+
+    @media (min-width: 1350px) {
+      padding-left: calc((100vw - 1350px) / 2 + 32px);
+      padding-right: 40vw;
+    }
+  }
+}
+
+// =============================================
+// EC — "You and your partner" 3-card horizontal scroll
+// =============================================
+.ec-couple {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 48px 0 64px;
+
+  @media (min-width: 768px) {
+    padding: 64px 0 80px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 80px 0 96px;
+  }
+}
+
+.ec-couple__inner {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  @media (min-width: 768px) { padding: 0 24px; }
+  @media (min-width: 1024px) { padding: 0 32px; }
+}
+
+.ec-couple__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-bottom: 40px;
+  }
+}
+
+.ec-couple__heading {
+  font-family: $font-primary;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0;
+  flex: 1;
+
+  @media (min-width: 576px) { font-size: 32px; }
+  @media (min-width: 768px) { font-size: 36px; }
+  @media (min-width: 1024px) { font-size: 42px; }
+  @media (min-width: 1280px) { font-size: 48px; }
+}
+
+.ec-couple__muted { color: #8F8F8F; }
+.ec-couple__dark { color: #111111; }
+
+.ec-couple__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  color: #fff;
+  font-family: $font-primary;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 1px solid #111;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  @media (min-width: 768px) {
+    font-size: 14px;
+    padding: 14px 26px;
+  }
+
+  &:hover {
+    background-color: rgba(17, 17, 17, 0.82);
+  }
+}
+
+// Top button — shown at desktop alongside the heading; hidden on mobile.
+// Explicitly pinned to the right edge of the inner container (== last card
+// right edge on desktop).
+.ec-couple__cta--top {
+  @media (max-width: 741.98px) {
+    display: none;
+  }
+
+  @media (min-width: 742px) {
+    margin-left: auto;
+    align-self: center;
+    flex-shrink: 0;
+  }
+}
+
+// Bottom button — full width below the cards on mobile; hidden on desktop.
+.ec-couple__cta--bottom {
+  display: none;
+
+  @media (max-width: 741.98px) {
+    display: flex;
+    width: 100%;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+}
+
+.ec-couple__footer {
+  @media (max-width: 741.98px) {
+    margin-top: 20px;
+  }
+
+  @media (min-width: 742px) {
+    display: none;
+  }
+}
+
+// Track: sibling to the inner container so cards flow full width.
+.ec-couple__track-wrap {
+  width: 100%;
+}
+
+.ec-couple__track {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+  padding: 6px 16px;
+
+  @media (min-width: 768px) {
+    gap: 20px;
+    padding: 6px 24px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 24px;
+    padding: 8px 32px;
+  }
+
+  @media (min-width: 1350px) {
+    padding-left: calc((100vw - 1350px) / 2 + 32px);
+    padding-right: calc((100vw - 1350px) / 2 + 32px);
+  }
+
+  &::-webkit-scrollbar { display: none; }
+  scrollbar-width: none;
+
+  &:active { cursor: grabbing; }
+
+  &::after { content: ''; flex: 0 0 1px; }
+}
+
+// Card — widths per the responsive spec:
+//  • >1024  : 3 cards fully visible inside the 1350 container
+//  • 741–1024: 2 cards fully + peek of 3rd
+//  • <741   : single card full width
+.ec-couple__card {
+  // <742px — one card, fills the track's content width edge-to-edge.
+  flex: 0 0 100%;
+  min-width: 0;
+  background-color: #F7F7F7;
+  border-radius: 20px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 742px) {
+    // Two cards + a small peek of the next.
+    flex: 0 0 calc(55% - 10px);
+    padding: 28px 26px;
+  }
+
+  @media (min-width: 1025px) {
+    // Three cards fully visible within the 1350 container.
+    flex: 0 0 calc((100% / 3) - 16px);
+    border-radius: 24px;
+    padding: 32px 30px;
+  }
+}
+
+.ec-couple__card-title {
+  font-family: $font-primary;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin: 0 0 20px;
+
+  @media (min-width: 400px) { font-size: 20px; }
+  @media (min-width: 480px) { font-size: 22px; }
+  @media (min-width: 576px) { font-size: 24px; }
+  @media (min-width: 680px) { font-size: 26px; }
+  @media (min-width: 742px) { font-size: 26px; }
+  @media (min-width: 1024px) { font-size: 28px; }
+  @media (min-width: 1280px) { font-size: 32px; }
+}
+
+.ec-couple__card-title-break {
+  @media (max-width: 741.98px) {
+    display: none;
+  }
+}
+
+.ec-couple__card-media {
+  width: 100%;
+  height: 360px;
+  background-size: 110% auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-bottom: 16px;
+  overflow: hidden;
+
+  @media (min-width: 400px) {
+    height: 420px;
+  }
+
+  @media (min-width: 480px) {
+    height: 480px;
+  }
+
+  @media (min-width: 576px) {
+    height: 540px;
+  }
+
+  @media (min-width: 680px) {
+    height: 600px;
+  }
+
+  // Switch back to the regular desktop scale once the layout breaks into
+  // 2 cards per row.
+  @media (min-width: 742px) {
+    height: 300px;
+    margin-bottom: 18px;
+  }
+
+  @media (min-width: 1025px) {
+    height: 320px;
+  }
+
+  @media (min-width: 1280px) {
+    height: 340px;
+  }
+}
+
+// Second card (Medical Pro) — keep it enlarged like the others, but anchor
+// the image to the right so its right edge stays visible (any overflow
+// crops off the left instead).
+.ec-couple__card:nth-child(2) .ec-couple__card-media {
+  background-size: 110% auto;
+  background-position: right center;
+}
+
+.ec-couple__card-desc {
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #555555;
+  margin: 0;
+
+  @media (min-width: 768px) { font-size: 15px; }
+  @media (min-width: 1024px) { font-size: 16px; }
+}
+
+// =============================================
+// EC — "Up your knowledge on PE treatment" blog cards
+// =============================================
+.ec-blog {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 48px 0 64px;
+
+  @media (min-width: 768px) {
+    padding: 64px 0 80px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 80px 0 96px;
+  }
+}
+
+.ec-blog__inner {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  @media (min-width: 768px) { padding: 0 24px; }
+  @media (min-width: 1024px) { padding: 0 32px; }
+}
+
+.ec-blog__heading {
+  font-family: $font-primary;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 24px;
+
+  @media (min-width: 576px) { font-size: 28px; }
+  @media (min-width: 768px) { font-size: 32px; margin-bottom: 32px; }
+  @media (min-width: 1024px) { font-size: 38px; margin-bottom: 40px; }
+  @media (min-width: 1280px) { font-size: 44px; }
+}
+
+.ec-blog__dark { color: #111111; }
+.ec-blog__muted { color: #8F8F8F; }
+
+// Track — two cards side by side on desktop, horizontal scroll on mobile.
+.ec-blog__track-wrap {
+  width: 100%;
+}
+
+.ec-blog__track {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  width: 100%;
+  padding: 6px 16px;
+
+  @media (min-width: 768px) {
+    gap: 20px;
+    padding: 6px 24px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 24px;
+    padding: 8px 32px;
+  }
+
+  @media (min-width: 1350px) {
+    padding-left: calc((100vw - 1350px) / 2 + 32px);
+    padding-right: calc((100vw - 1350px) / 2 + 32px);
+  }
+
+  // Mobile: horizontal scroll
+  @media (max-width: 741.98px) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    user-select: none;
+
+    &::-webkit-scrollbar { display: none; }
+    scrollbar-width: none;
+
+    &::after {
+      content: '';
+      flex: 0 0 1px;
+    }
+  }
+}
+
+.ec-blog__card {
+  // <742: one card fully visible; the track's horizontal scroll lets users
+  // pan to the next card.
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  // Desktop: two cards side by side, no shrink.
+  @media (min-width: 742px) {
+    flex: 0 0 calc(50% - 10px);
+  }
+
+  @media (min-width: 1024px) {
+    flex: 0 0 calc(50% - 12px);
+  }
+}
+
+.ec-blog__card-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #f5f0e8;
+  margin-bottom: 16px;
+
+  @media (min-width: 576px) {
+    aspect-ratio: 4 / 3;
+  }
+
+  @media (min-width: 768px) {
+    aspect-ratio: 4 / 3;
+    border-radius: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.ec-blog__card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.ec-blog__card-title {
+  font-family: $font-primary;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #111;
+  margin: 0 0 8px;
+
+  @media (min-width: 768px) { font-size: 20px; margin-bottom: 10px; }
+  @media (min-width: 1024px) { font-size: 22px; margin-bottom: 12px; }
+}
+
+.ec-blog__card-desc {
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #555;
+  margin: 0 0 16px;
+
+  @media (min-width: 768px) { font-size: 15px; margin-bottom: 20px; }
+  @media (min-width: 1024px) { font-size: 16px; margin-bottom: 22px; }
+}
+
+.ec-blog__card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: transparent;
+  color: #111;
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid #dcdcdc;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  @media (min-width: 768px) {
+    font-size: 16px;
+    padding: 15px 24px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 17px;
+    padding: 16px 26px;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #111;
+    border-color: transparent;
+  }
+}
+
+// =============================================
+// EC — "How to get medicine for PE" 2-column section
+// =============================================
+.ec-howto {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 48px 16px;
+
+  @media (min-width: 768px) {
+    padding: 64px 24px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 80px 32px;
+  }
+}
+
+.ec-howto__inner {
+  max-width: 1350px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: center;
+
+  @media (min-width: 742px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 56px;
+  }
+
+  @media (min-width: 1280px) {
+    gap: 64px;
+  }
+}
+
+.ec-howto__media {
+  order: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ec-howto__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+
+  @media (min-width: 768px) {
+    border-radius: 24px;
+  }
+}
+
+.ec-howto__content {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.ec-howto__heading {
+  font-family: $font-primary;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 24px;
+
+  @media (min-width: 576px) { font-size: 28px; }
+  @media (min-width: 768px) { font-size: 30px; margin-bottom: 28px; }
+  @media (min-width: 1024px) { font-size: 34px; margin-bottom: 32px; }
+  @media (min-width: 1280px) { font-size: 40px; }
+}
+
+.ec-howto__dark { color: #111111; }
+.ec-howto__muted { color: #8F8F8F; }
+
+// Show the extra line-break only on desktop so the heading becomes
+//   Line 1: How to get medicine for
+//   Line 2: premature ejaculation
+//   Line 3: through healix
+.ec-howto__heading-break {
+  display: none;
+
+  @media (min-width: 742px) {
+    display: inline;
+  }
+}
+
+.ec-howto__steps {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  @media (min-width: 768px) {
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+}
+
+.ec-howto__step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  @media (min-width: 768px) { gap: 14px; }
+}
+
+.ec-howto__step-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #6e4c46;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+
+  @media (min-width: 768px) {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.ec-howto__step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ec-howto__step-title {
+  font-family: $font-primary;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.3;
+  margin: 0 0 4px;
+
+  @media (min-width: 576px) { font-size: 17px; }
+  @media (min-width: 768px) { font-size: 18px; }
+  @media (min-width: 1024px) { font-size: 20px; }
+  @media (min-width: 1280px) { font-size: 22px; }
+}
+
+.ec-howto__step-desc {
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444444;
+  line-height: 1.5;
+  margin: 0;
+
+  @media (min-width: 576px) { font-size: 15px; }
+  @media (min-width: 768px) { font-size: 16px; }
+  @media (min-width: 1024px) { font-size: 17px; }
+  @media (min-width: 1280px) { font-size: 18px; }
+}
+
+.ec-howto__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  color: #fff;
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 1px solid #111;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  align-self: flex-start;
+
+  @media (min-width: 768px) {
+    font-size: 15px;
+    padding: 15px 28px;
+  }
+
+  @media (max-width: 575.98px) {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  &:hover {
+    background-color: rgba(17, 17, 17, 0.82);
+  }
+}
+
+// =============================================
+// EC — "Got PE questions? We've got answers." FAQ accordion
+// =============================================
+.ec-faq {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 48px 16px;
+
+  @media (min-width: 768px) {
+    padding: 64px 24px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 80px 32px;
+  }
+}
+
+.ec-faq__inner {
+  max-width: 1350px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 1.4fr;
+    gap: 72px;
+  }
+}
+
+.ec-faq__left { display: flex; flex-direction: column; }
+
+.ec-faq__heading {
+  font-family: $font-primary;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #111;
+  margin: 0;
+
+  @media (min-width: 400px) { font-size: 22px; }
+  @media (min-width: 480px) { font-size: 24px; }
+  @media (min-width: 576px) { font-size: 26px; }
+  @media (min-width: 680px) { font-size: 28px; }
+  @media (min-width: 768px) { font-size: 36px; line-height: 1.15; }
+  @media (min-width: 1024px) { font-size: 44px; }
+  @media (min-width: 1280px) { font-size: 50px; }
+}
+
+// Hide the heading line-break at <768px so the text flows on a single line
+// when the layout collapses to a single column.
+.ec-faq__heading-break {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: inline;
+  }
+}
+
+.ec-faq__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ec-faq__item {
+  border-bottom: 1px solid #e5e5e5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.ec-faq__question {
+  width: 100%;
+  padding: 18px 0;
+  background: none;
+  border: none;
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.3;
+
+  @media (min-width: 768px) {
+    font-size: 17px;
+    padding: 22px 0;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 1280px) {
+    font-size: 19px;
+  }
+
+  span { flex: 1; }
+}
+
+.ec-faq__chev {
+  flex-shrink: 0;
+  color: #111;
+  transition: transform 0.3s ease;
+}
+
+.ec-faq__answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+  overflow: hidden;
+}
+
+.ec-faq__answer-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ec-faq__answer-inner p {
+  font-family: $font-primary;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 12px;
+
+  @media (min-width: 768px) { font-size: 16px; }
+  @media (min-width: 1024px) { font-size: 17px; }
+  @media (min-width: 1280px) { font-size: 18px; }
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.ec-faq__answer-inner ul {
+  margin: 0;
+  padding-left: 18px;
+  list-style: disc;
+
+  li {
+    font-family: $font-primary;
+    font-size: 15px;
+    font-weight: 500;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 4px;
+
+    @media (min-width: 768px) { font-size: 16px; }
+    @media (min-width: 1024px) { font-size: 17px; }
+    @media (min-width: 1280px) { font-size: 18px; }
+
+    &:last-child { margin-bottom: 0; }
+  }
+}
+
+.ec-faq__answer-inner > :last-child {
+  padding-bottom: 18px;
+}
+
+.ec-faq__link {
+  color: #111;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+
+  &:hover { opacity: 0.75; }
+}
+
+.ec-faq__item--open {
+  .ec-faq__answer {
+    grid-template-rows: 1fr;
+  }
+
+  .ec-faq__chev {
+    transform: rotate(180deg);
+  }
+}
+
+// =============================================
+// EC — "PE medication, made simple" banner
+// =============================================
+.ec-banner {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 48px 16px;
+
+  @media (min-width: 768px) {
+    padding: 64px 24px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 80px 32px;
+  }
+}
+
+.ec-banner__wrapper {
+  position: relative;
+  max-width: 1350px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #a48d8e;
+
+  @media (min-width: 742px) {
+    border-radius: 24px;
+  }
+}
+
+// <picture> wrapper passes through so its <img> child participates in the
+// flex/absolute layout directly.
+.ec-banner__picture {
+  display: contents;
+}
+
+// The image drives the wrapper's height so the full banner stays visible
+// at every screen size without cropping.
+.ec-banner__bg {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.ec-banner__content {
+  position: absolute;
+  top: 28px;
+  left: 24px;
+  right: 24px;
+  z-index: 1;
+  max-width: 520px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 576px) { top: 32px; left: 28px; right: 28px; }
+  @media (min-width: 742px) { top: 40px; left: 40px; right: auto; }
+  @media (min-width: 1024px) { top: 48px; left: 56px; }
+  @media (min-width: 1280px) { top: 60px; left: 64px; }
+}
+
+.ec-banner__heading {
+  font-family: $font-primary;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 24px;
+
+  @media (min-width: 576px) { font-size: 34px; }
+  @media (min-width: 768px) { font-size: 38px; margin-bottom: 28px; }
+  @media (min-width: 1024px) { font-size: 44px; margin-bottom: 32px; }
+  @media (min-width: 1280px) { font-size: 50px; }
+}
+
+.ec-banner__dark { color: #111; }
+.ec-banner__muted { color: #5e4e4d; }
+
+.ec-banner__list {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (min-width: 768px) {
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+}
+
+.ec-banner__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.4;
+
+  @media (min-width: 768px) { font-size: 15px; }
+  @media (min-width: 1024px) { font-size: 16px; }
+}
+
+.ec-banner__check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #111;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ec-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  color: #fff;
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 1px solid #111;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  align-self: flex-start;
+
+  @media (min-width: 768px) {
+    font-size: 15px;
+    padding: 15px 28px;
+  }
+
+  // Full width below 742px per spec.
+  @media (max-width: 741.98px) {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  &:hover {
+    background-color: rgba(17, 17, 17, 0.82);
+  }
+}
+
+.ec-hero__disclaimer {
+  font-family: $font-primary;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: rgba(26, 26, 26, 0.65);
+  margin: 0;
+  max-width: 100%;
+  // Wrap at every breakpoint — prevents the text from sitting behind the
+  // video column on narrower widths.
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  @media (min-width: 400px) { font-size: 13px; }
+  @media (min-width: 480px) { font-size: 13px; }
+  @media (min-width: 576px) { font-size: 14px; }
+  @media (min-width: 680px) { font-size: 14px; }
+
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 15px;
+  }
+
+  @media (min-width: 1280px) {
+    font-size: 16px;
+  }
+}
